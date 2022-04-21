@@ -2,8 +2,9 @@ from binance.spot import Spot
 
 
 class BinanceSpot:
-    def __init__(self, key, secr_key, select_api):
-        self.alpaca_url = select_api
+    def __init__(self, key, secr_key):
+        # ,select_api
+        # self.alpaca_url = select_api
         self.pub_key = key
         self.priv_key = secr_key
         self.client = Spot(self.pub_key, self.priv_key)

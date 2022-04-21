@@ -1,20 +1,28 @@
 import websocket
 
+
 def on_message(ws, message):
-    # print("received a message")
     print(message)
 
 def on_close(ws):
     print("closed connection")
 
+# socket =  'wss://fstream.binance.com/ws/bnbusdt@aggTrade'
+# candlestick_streams =  'wss://fstream.binance.com/ws/bnbusdt@kline_1m'
+# orderbook_streams = 'wss://fstream.binance.com/ws/bnbusdt@bookTicker'
+# ws = websocket.WebSocketApp(candlestick_streams, on_message=on_message, on_close=on_close)
+# ws.run_forever()
+
+
+class BinanceSockets:
+    def __init__(self, socket_URL):
+        self.URL = socket_URL
+
+    def stream(self, strategy):
+        ws = websocket.WebSocketApp(self.URL, on_message=strategy, on_close=on_close)
+        self.content = ws.run_forever()
+
 # https://binance-docs.github.io/apidocs/spot/en/#live-subscribing-unsubscribing-to-streams
-
-socket =  'wss://fstream.binance.com/ws/bnbusdt@aggTrade'
-
-candlestick_streams =  'wss://fstream.binance.com/ws/bnbusdt@kline_1m'
-orderbook_streams = 'wss://fstream.binance.com/ws/bnbusdt@bookTicker'
-ws = websocket.WebSocketApp(socket, on_message=on_message, on_close=on_close)
-ws.run_forever()
 # 1m
 # 3m
 # 5m
