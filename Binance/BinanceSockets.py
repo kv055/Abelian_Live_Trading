@@ -1,12 +1,10 @@
 import websocket
 
+# def on_message(ws, message):
+#     print(message)
 
-def on_message(ws, message):
-    print(message)
-
-def on_close(ws):
-    print("closed connection")
-
+# def on_close(ws):
+#     print("closed connection")
 # socket =  'wss://fstream.binance.com/ws/bnbusdt@aggTrade'
 # candlestick_streams =  'wss://fstream.binance.com/ws/bnbusdt@kline_1m'
 # orderbook_streams = 'wss://fstream.binance.com/ws/bnbusdt@bookTicker'
@@ -19,7 +17,13 @@ class BinanceSockets:
         self.URL = socket_URL
 
     def stream(self, strategy):
-        ws = websocket.WebSocketApp(self.URL, on_message=strategy, on_close=on_close)
+        def on_message(ws, message):
+            print(message)
+
+        def on_close(ws):
+            print("closed connection")
+
+        ws = websocket.WebSocketApp(self.URL, on_message=on_message, on_close=on_close)
         self.content = ws.run_forever()
 
 # https://binance-docs.github.io/apidocs/spot/en/#live-subscribing-unsubscribing-to-streams

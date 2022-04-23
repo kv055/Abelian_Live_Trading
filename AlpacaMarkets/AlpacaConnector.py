@@ -1,18 +1,5 @@
 import alpaca_trade_api as tradeapi
 
-# Endpoints
-APCA_API_BASE_URL =	'https://api.alpaca.markets' 
-APCA_API_DATA_URL = 'https://data.alpaca.markets'
-APCA_API_PAPERTRADING_URL = 'https://paper-api.alpaca.markets'
-
-# Keys
-PAPER_APCA_API_KEY_ID = 'PK0RPI7F5X8M0VVED26I'
-PAPER_APCA_API_SECRET_KEY = '6VoDwGzKZ3uvPPq8awfspLesuYDnPqYtx0ZhPefG'
-
-APCA_API_KEY_ID = 'AKTY9EUCRJZWTAIQVKQR'
-APCA_API_SECRET_KEY = 'Beynq6kJ4aCapM3E6xRH5BDhziFzuMaxyCTjMwIq'
-
-
 class Alpaca:
     def __init__(self, key, secr_key, select_api):
         self.alpaca_url = select_api
@@ -20,9 +7,9 @@ class Alpaca:
         self.priv_key = secr_key
 
         self.livetrading = tradeapi.REST(
-            APCA_API_KEY_ID, 
-            APCA_API_SECRET_KEY,
-            APCA_API_BASE_URL
+            self.pub_key , 
+            self.priv_key,
+            self.alpaca_url
         )
 
     def get_account_info(self):

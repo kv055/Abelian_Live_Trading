@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 from AlpacaMarkets.AlpacaConnector import Alpaca
-# from AlpacaMarkets.AlpacaSockets import 
+from AlpacaMarkets.AlpacaSockets import AlpacaSockets
 
 from Binance.BinanceSpotConnector import BinanceSpot
 from Binance.BinanceSockets import BinanceSockets
@@ -14,22 +14,36 @@ load_dotenv()
 
 
 
-
-
 # Load Alpaca Keys
 ALPACA_PAPERTRADING_PUB_KEY = os.getenv('ALPACA_PAPERTRADING_PUB_KEY')
 ALPACA_PAPERTRADING_PRIV_KEY = os.getenv('ALPACA_PAPERTRADING_PRIV_KEY')
 
+ALPACA_PUB_KEY = os.getenv('ALPACA_PUB_KEY')
+ALPACA_PRIV_KEY = os.getenv('ALPACA_PRIV_KEY')
+
 # Init Alpaca Connection
+# Endpoints
+APCA_API_BASE_URL =	'https://api.alpaca.markets' 
+APCA_API_DATA_URL = 'https://data.alpaca.markets'
 APCA_API_PAPERTRADING_URL = 'https://paper-api.alpaca.markets'
-alpaca_connection = Alpaca(APCA_API_PAPERTRADING_URL)
+
+alpaca_connection = Alpaca(
+    ALPACA_PAPERTRADING_PUB_KEY,
+    ALPACA_PAPERTRADING_PRIV_KEY,
+    APCA_API_PAPERTRADING_URL)
 
 # init Strategy
 alpaca_strategy = DumbStrategy(alpaca_connection)
 alpaca_strategy.trade()
 
 # Init Stream
-
+socket = 'wss://stream.data.alpaca.markets/v2/iex'
+alpaca_wss = AlpacaSockets(
+    ALPACA_PUB_KEY,
+    ALPACA_PRIV_KEY,
+    socket
+)
+alpaca_wss.stream()
 
 # -----------------------------------------
 
