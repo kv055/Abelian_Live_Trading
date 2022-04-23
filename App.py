@@ -1,15 +1,20 @@
 import os
 from dotenv import load_dotenv
 
-from AlpacaMarkets.AlpacaClass import Alpaca
+from AlpacaMarkets.AlpacaConnector import Alpaca
 # from AlpacaMarkets.AlpacaSockets import 
 
-from Binance.BinanceSpotClass import BinanceSpot
+from Binance.BinanceSpotConnector import BinanceSpot
 from Binance.BinanceSockets import BinanceSockets
 
 from Strategies.DummyStrategy import DumbStrategy
 
 load_dotenv()
+
+
+
+
+
 
 # Load Alpaca Keys
 ALPACA_PAPERTRADING_PUB_KEY = os.getenv('ALPACA_PAPERTRADING_PUB_KEY')
