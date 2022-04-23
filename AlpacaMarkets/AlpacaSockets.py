@@ -32,3 +32,9 @@ class AlpacaSockets:
 
         ws = websocket.WebSocketApp(self.URL, on_open=on_open, on_message=on_message, on_close=on_close)
         ws.run_forever()
+    
+    
+
+
+from alpaca_trade_api.stream import Stream
+

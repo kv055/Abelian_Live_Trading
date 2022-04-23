@@ -1,10 +1,5 @@
 import websocket
 
-# def on_message(ws, message):
-#     print(message)
-
-# def on_close(ws):
-#     print("closed connection")
 # socket =  'wss://fstream.binance.com/ws/bnbusdt@aggTrade'
 # candlestick_streams =  'wss://fstream.binance.com/ws/bnbusdt@kline_1m'
 # orderbook_streams = 'wss://fstream.binance.com/ws/bnbusdt@bookTicker'
