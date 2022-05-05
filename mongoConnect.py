@@ -15,3 +15,4 @@ collection = database.LogBook.find()
 for x in collection:
     print(x)
 
+# make sure to white_list current ip address or otherwise the connection will be blocked
