@@ -1,44 +1,19 @@
-user = {
-    'first_name': 'Kilian',
-    'last_name': 'Voss',
-    'e-mail': 'kilian96@live.de'
-}
+from dotenv import load_dotenv
+from aws_sql_connect import AWS_SQL
 
-def insert_user(connector, user_dict):
-    # %s, %s, %s
-    ins = f"""INSERT INTO benutzer (name) VALUES ('Joes')"""
-    # val = ("Juhn","sfskj","dfifdi")
-    connector.cursor.execute(ins)
 
-keys = {
-    'user_id': 69,
-    'exchange_id': 69,
-    'exchange_id': 69,
-    'pub_key': 420,
-    'priv_key': 420
-}
-
-def insert_exchange_keys(connector, keys_dict):
-    pass
-
-config = {
-    'user_id': 69,
-    'strategy_id': 69,
-    'asset_id': 69
-}
-
-def insert_config(connector, config_dict):
-    ins = f"""INSERT INTO benutzer (name) VALUES ('Joes')"""
-    # val = ("Juhn","sfskj","dfifdi")
-    connector.cursor.execute(ins)
-    pass
+# Connection
+db_connection = AWS_SQL(load_dotenv)
 
 asset = {
-    'aset_name': 'BitchCoin'
+    'asset_name': 'BitchCoin'
 }
 
 def insert_assets(connector, asset_dict):
+    # ins = f"""INSERT INTO config_live_trading (user_id, strategy_id,asset_id) VALUES (%s,%s,%s)"""
+    # val = (asset['asset_name'])
+    # connector.cursor.execute(ins,val)
+    # connector.connection.commit()
     pass
 
-
-
+insert_assets()
