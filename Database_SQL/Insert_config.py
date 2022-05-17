@@ -6,8 +6,8 @@ from aws_sql_connect import AWS_SQL
 db_connection = AWS_SQL(load_dotenv)
 
 config = {
-    'user_id': 69,
-    'strategy_id': 69,
+    'user_id': 7,
+    'strategy_id': 1,
     'asset_id': 69
 }
 
