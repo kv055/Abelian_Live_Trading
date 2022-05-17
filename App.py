@@ -1,58 +1,44 @@
 import os
 from dotenv import load_dotenv
 
-from AlpacaMarkets.AlpacaConnector import Alpaca
-from AlpacaMarkets.AlpacaSockets import AlpacaSockets
-
-from Binance.BinanceSpotConnector import BinanceSpot
-from Binance.BinanceSockets import BinanceSockets
-
-from Strategies.DummyStrategy import DumbStrategy
-
+# from Database_SQL.querry import querry
 load_dotenv()
 
-# # Init Alpaca Connection
-# # Endpoints
-# APCA_API_BASE_URL =	'https://api.alpaca.markets' 
-# APCA_API_DATA_URL = 'https://data.alpaca.markets'
-# APCA_API_PAPERTRADING_URL = 'https://paper-api.alpaca.markets'
+# Import Database Connection
+from Database_SQL.aws_sql_connect import AWS_SQL, DummyData
 
-# alpaca_connection = Alpaca(
-#     ALPACA_PAPERTRADING_PUB_KEY,
-#     ALPACA_PAPERTRADING_PRIV_KEY,
-#     APCA_API_PAPERTRADING_URL)
+# Import Query functions
+from Database_SQL.querry_config import config_live_trading 
+# from Database_SQL.query_kraken_assets import kraken_assets
+# from Database_SQL.query_binance_assets import binance_assets
 
-# # init Strategy
-# alpaca_strategy = DumbStrategy(alpaca_connection)
-# alpaca_strategy.trade()
+# Import live data fetch modules
+from Binance.FetchLiveData import live_price_data_Binance
+# from Kraken.FetchLiveData import live_price_data_Kraken
+# from Alpaca.FetchLiveData import live_price_data_Alpaca
 
-# # Init Stream
-# socket = 'wss://stream.data.alpaca.markets/v2/iex'
-# alpaca_wss = AlpacaSockets(
-#     ALPACA_PUB_KEY,
-#     ALPACA_PRIV_KEY,
-#     socket
-# )
-# alpaca_wss.stream()
+# Import connections
+from Database_SQL.create_connectors import connector_instances
 
-# # -----------------------------------------
+# Import Strategies
+# from Strategies.DummyStrategy import DumbStrategy
 
-# # Init Binance Connection
-# binance_connection = BinanceSpot(BINANCE_PUB_KEY,BINANCE_PRIV_KEY)
+# Conecting to DB
+# connection = AWS_SQL(load_dotenv)
+connection = DummyData(load_dotenv)
 
-# # Init strategies
-# binance_strategy = DumbStrategy(binance_connection)
-# binance_strategy.trade()
+# Fetch all assets from Config module
+querry_from = config_live_trading(connection)
+config_rows_DB = querry_from.Join()
 
-# # Init Stream
-# candlestick_streams_URL = 'wss://fstream.binance.com/ws/bnbusdt@kline_1m'
-# trade_bnbusdt = BinanceSockets(candlestick_streams_URL)
-# trade_bnbusdt.stream(DumbStrategy)
+connectors = connector_instances()
 
+# In seperate module fetch PriceData
+# make function universal, not just for binance
+all_price_data = live_price_data_Binance()
 
+# # Init all Strategies
+# test_strategy = DumbStrategy(configuration)
+# test_strategy2 = DumbStrategy(configuration)
 
-from Database_SQL.aws_sql_connect import AWS_SQL
-test_connection = AWS_SQL(load_dotenv)
-
-from Database_SQL.querry import querry
-querry(test_connection)
+# every 5min execute
