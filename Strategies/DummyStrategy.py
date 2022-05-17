@@ -4,12 +4,19 @@ import random
 
 
 class DumbStrategy:
-    def __init__ (self, connector):
-        self.connector = connector
+    def __init__ (self, config):
+        self.config = config
+        pass
 
-    def trade(self):
-        lol = self.connector.get_account_info()
-        print(lol)
+    # def trade(self, assets):
+    #     # looking for intersections between assets.ticker and config.ticker
+    #     for object in self.config:
+    #         for element in assets:
+    #             if object['ticker_symbol'] == assets['ticker_symbol']:
+                    #do some shit
+        # execute this method every 5min or so
+        # lol = self.connector.get_account_info()
+        # print(lol)
         # #     , ws, message
         # # print(message)
         # n = random.random()
