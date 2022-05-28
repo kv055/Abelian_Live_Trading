@@ -11,6 +11,7 @@ from Database_SQL.querry_config import config_live_trading
 # import exchange connectors
 from Binance.BinanceSpotConnector import BinanceSpot
 from AlpacaMarkets.AlpacaConnector import Alpaca
+from Kraken.Kraken_Connector import KrakenSpot
 
 # Connection
 connector = DummyData(load_dotenv)
@@ -24,6 +25,7 @@ def connector_instances():
     for key_pair in list_of_keys:
         pub = key_pair['pub_key']
         priv = key_pair['priv_key']
+
         if key_pair['endpoint'] == 'Binance':
             connector_instance = BinanceSpot(pub, priv)
             key_pair['connector'] = connector_instance
@@ -32,6 +34,12 @@ def connector_instances():
             
         elif key_pair['endpoint'] == 'Alpaca':
             connector_instance = Alpaca(pub, priv, 'https://broker-api.alpaca.markets/')
+            key_pair['connector'] = connector_instance
+            del key_pair['pub_key']
+            del key_pair['priv_key']
+            
+        elif key_pair['endpoint'] == 'Kraken':
+            connector_instance = KrakenSpot(pub, priv)
             key_pair['connector'] = connector_instance
             del key_pair['pub_key']
             del key_pair['priv_key']
