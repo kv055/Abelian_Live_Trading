@@ -19,6 +19,24 @@ class DumbStrategy:
         n = random.random()
         if (n >= 0.75):
             print("RandomNumber >= 0.75: ", n, 'buy')
+    def __init__ (self, config):
+        self.config = config
+        pass
+
+    # def trade(self, assets):
+    #     # looking for intersections between assets.ticker and config.ticker
+    #     for object in self.config:
+    #         for element in assets:
+    #             if object['ticker_symbol'] == assets['ticker_symbol']:
+                    #do some shit
+        # execute this method every 5min or so
+        # lol = self.connector.get_account_info()
+        # print(lol)
+        # #     , ws, message
+        # # print(message)
+        # n = random.random()
+        # if (n >= 0.75):
+        #     print("RandomNumber >= 0.75: ", n, 'buy')
             
         #     # globalReturn['Action'].append({'type':'buy','positionSize': 0.5})
         #     # globalReturn['AssetValue'].append(self.price_raw[1][index_])

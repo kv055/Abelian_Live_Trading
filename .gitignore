@@ -139,3 +139,6 @@ dmypy.json
 cython_debug/
 
 # .key
+# VS Code Auto generated Folders/Files
+.idea
+.vscode
