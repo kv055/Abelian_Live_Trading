@@ -1,6 +1,6 @@
 import os
 import mysql.connector
-from mysql.connector import errorcode
+# from mysql.connector import errorcode
 
 class AWS_SQL:
     def __init__(self, environement):
