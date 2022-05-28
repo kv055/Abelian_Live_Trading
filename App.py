@@ -21,7 +21,7 @@ from Binance.FetchLiveData import live_price_data_Binance
 from Database_SQL.create_connectors import connector_instances
 
 # Import Strategies
-# from Strategies.DummyStrategy import DumbStrategy
+from Strategies.DummyStrategy import DumbStrategy
 
 # Conecting to DB
 # connection = AWS_SQL(load_dotenv)
@@ -31,14 +31,15 @@ connection = DummyData(load_dotenv)
 querry_from = config_live_trading(connection)
 config_rows_DB = querry_from.Join()
 
-connectors = connector_instances()
+connectors = connector_instances(config_rows_DB)
 
 # In seperate module fetch PriceData
 # make function universal, not just for binance
 all_price_data = live_price_data_Binance()
 
+l = 0
 # # Init all Strategies
-# test_strategy = DumbStrategy(configuration)
-# test_strategy2 = DumbStrategy(configuration)
+test_strategy = DumbStrategy(config_rows_DB, connectors, all_price_data)
+test_strategy2 = DumbStrategy(config_rows_DB, connectors, all_price_data)
 
 # every 5min execute

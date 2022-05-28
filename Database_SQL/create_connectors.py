@@ -16,7 +16,7 @@ from Kraken.Kraken_Connector import KrakenSpot
 # Connection
 connector = DummyData(load_dotenv)
 
-def connector_instances():
+def connector_instances(config_rows):
    # querry all DISTINCT KEYS
     query = config_live_trading(connector)
     key_ids = query.query_keys_id_DISTINCT()
@@ -43,7 +43,7 @@ def connector_instances():
             key_pair['connector'] = connector_instance
             del key_pair['pub_key']
             del key_pair['priv_key']
-            
+
     return list_of_keys
 
         

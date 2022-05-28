@@ -4,9 +4,10 @@ import random
 
 
 class DumbStrategy:
-    def __init__ (self, connector):
-        self.connector = connector
-        
+    def __init__ (self, config_rows, connector_list, price_data_list):
+        self.connector = connector_list
+        self.price_data = price_data_list
+        self.config = config_rows
 
     def load_pricedata(self,pricedata):
         # needs to be an INT
