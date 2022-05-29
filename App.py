@@ -39,6 +39,7 @@ test_strategy = DumbStrategy(config_rows_DB, connectors)
 # test_strategy2 = DumbStrategy(config_rows_DB, connectors)
 
 # every 5min execute
+# ask Steele on how reliable that shit is
 while True:
 
     # fetch price_Data
