@@ -4,14 +4,16 @@ import random
 
 
 class DumbStrategy:
-    def __init__ (self, config_rows, connector_list, price_data_list):
+    def __init__ (self, config_rows, connector_list):
+        strategy_id = 1
+        # filter all config rows that have a different Strategy id than the one  
+        # in our current Strategy
+        self.config = [row for row in config_rows if row['strategy_id'] == strategy_id]
         self.connector = connector_list
-        self.price_data = price_data_list
-        self.config = config_rows
 
-    def load_pricedata(self,pricedata):
+    def load_pricedata(self, price_data_list):
         # needs to be an INT
-        self.price = pricedata
+        self.price = price_data_list
 
     def trade(self):
         lol = self.connector.get_account_info()
@@ -20,9 +22,9 @@ class DumbStrategy:
         n = random.random()
         if (n >= 0.75):
             print("RandomNumber >= 0.75: ", n, 'buy')
-    def __init__ (self, config):
-        self.config = config
-        pass
+    # def __init__ (self, config):
+    #     self.config = config
+    #     pass
 
     # def trade(self, assets):
     #     # looking for intersections between assets.ticker and config.ticker

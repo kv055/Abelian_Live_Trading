@@ -39,7 +39,7 @@ all_price_data = live_price_data_Binance()
 
 l = 0
 # # Init all Strategies
-test_strategy = DumbStrategy(config_rows_DB, connectors, all_price_data)
-test_strategy2 = DumbStrategy(config_rows_DB, connectors, all_price_data)
+test_strategy = DumbStrategy(config_rows_DB, connectors)
+# test_strategy2 = DumbStrategy(config_rows_DB, connectors, all_price_data)
 
 # every 5min execute
