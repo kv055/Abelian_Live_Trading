@@ -45,11 +45,4 @@ def connector_instances(config_rows):
             del key_pair['priv_key']
 
     return list_of_keys
-
-        
-# class create_connectors:
-#     def __init__(self, connector, keys_config):
-        
-#         pass
-
     

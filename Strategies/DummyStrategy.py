@@ -1,5 +1,3 @@
-# # Binance
-# from Binance.BinanceSpotClass import BinanceSpot
 import random
 
 
@@ -9,51 +7,33 @@ class DumbStrategy:
         # filter all config rows that have a different Strategy id than the one  
         # in our current Strategy
         self.config = [row for row in config_rows if row['strategy_id'] == strategy_id]
-        self.connector = connector_list
+        self.connectors = connector_list
 
     def load_pricedata(self, price_data_list):
-        # needs to be an INT
         self.price = price_data_list
 
-    def trade(self):
-        lol = self.connector.get_account_info()
-        print(lol, self.price)
+    def trade_loop(self):
+        for row in self.config:
+            # get connecctor
+            key_id = row['keys_id']
+            connector_obj = [con for con in self.connectors if con['keys_id'] == key_id]
 
-        n = random.random()
-        if (n >= 0.75):
-            print("RandomNumber >= 0.75: ", n, 'buy')
-    # def __init__ (self, config):
-    #     self.config = config
-    #     pass
-
-    # def trade(self, assets):
-    #     # looking for intersections between assets.ticker and config.ticker
-    #     for object in self.config:
-    #         for element in assets:
-    #             if object['ticker_symbol'] == assets['ticker_symbol']:
-                    #do some shit
-        # execute this method every 5min or so
-        # lol = self.connector.get_account_info()
-        # print(lol)
-        # #     , ws, message
-        # # print(message)
-        # n = random.random()
-        # if (n >= 0.75):
-        #     print("RandomNumber >= 0.75: ", n, 'buy')
+            # get asset price
+            asset_id = row['asset_id']
+            asset = [ass for ass in self.price if ass['asset_id'] == asset_id]
             
-        #     # globalReturn['Action'].append({'type':'buy','positionSize': 0.5})
-        #     # globalReturn['AssetValue'].append(self.price_raw[1][index_])
-        #     # globalReturn['Time'].append(self.price_raw[0][index_])
-        # elif(n <= 0.25):
-        #     print("RandomNumber <= 0.25: ", n, 'sell')
+            # print('ROW',row,'ASSET',asset[0]['symbol'],'CONNECTOR',connector_obj)
             
-        #     # globalReturn['Action'].append({'type':'sell','positionSize': 0.5})
-        #     # globalReturn['AssetValue'].append(self.price_raw[1][index_])
-        #     # globalReturn['Time'].append(self.price_raw[0][index_])
+            # if len(connector_obj) > 0:
+            #     connection = connector_obj[0]['connector']
+            #     account_info = connection.get_account_info()
+            #     print(account_info)
 
-# Strategy must be a pure function, NO CLASS METHOD
-# reaon being that it gets passed into the WebSockets module as callback
-# doesnt wokr with a class method for whatever reason 
 
-# def DumbStrategy(ws, message):
-#     print(message)
+    # def trade(self):
+    #     lol = self.connectors.get_account_info()
+    #     print(lol, self.price)
+
+    #     n = random.random()
+    #     if (n >= 0.75):
+    #         print("RandomNumber >= 0.75: ", n, 'buy')

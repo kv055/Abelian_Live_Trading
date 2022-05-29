@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import time
 
 # from Database_SQL.querry import querry
 load_dotenv()
@@ -33,13 +34,26 @@ config_rows_DB = querry_from.Join()
 
 connectors = connector_instances(config_rows_DB)
 
-# In seperate module fetch PriceData
-# make function universal, not just for binance
-all_price_data = live_price_data_Binance()
-
-l = 0
-# # Init all Strategies
+# Init all Strategies
 test_strategy = DumbStrategy(config_rows_DB, connectors)
-# test_strategy2 = DumbStrategy(config_rows_DB, connectors, all_price_data)
+# test_strategy2 = DumbStrategy(config_rows_DB, connectors)
 
 # every 5min execute
+while True:
+
+    # fetch price_Data
+    all_price_data = live_price_data_Binance()
+    # make function universal, not just for binance
+    
+    # feed pricedata to Strategies
+    test_strategy.load_pricedata(all_price_data)
+    # test_strategy2.load_pricedata(all_price_data)
+
+    # execute the trades
+    test_strategy.trade_loop()
+
+    # implement sleep function here
+    time.sleep(600)
+
+
+
