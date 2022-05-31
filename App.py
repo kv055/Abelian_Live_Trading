@@ -55,6 +55,3 @@ while True:
 
     # implement sleep function here
     time.sleep(600)
-
-
-
