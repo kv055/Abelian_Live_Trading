@@ -8,6 +8,9 @@ class BinanceSpot:
         self.pub_key = key
         self.priv_key = secr_key
         self.client = Spot(self.pub_key, self.priv_key)
+        # TestNet Client
+        # self.client = Spot(self.pub_key, self.priv_key, {"base_url": 'https://testnet.binance.vision/api'})
+        # self.client = Spot(self.pub_key, self.priv_key, base_url = 'https://testnet.binance.vision/api')
 
 
     def get_account_info(self):

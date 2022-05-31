@@ -14,25 +14,30 @@ from Database_SQL.querry_config import config_live_trading
 # from Database_SQL.query_binance_assets import binance_assets
 
 # Import live data fetch modules
-from Binance.FetchLiveData import live_price_data_Binance
+# from Binance.FetchLiveData import live_price_data_Binance
 # from Kraken.FetchLiveData import live_price_data_Kraken
 # from Alpaca.FetchLiveData import live_price_data_Alpaca
+from Test_Data.Test_Data import PriceDataFetch
 
 # Import connections
-from Database_SQL.create_connectors import connector_instances
+# from Database_SQL.create_connectors import connector_instances
+from Binance.BinanceSpotConnector import BinanceSpot
 
 # Import Strategies
-from Strategies.DummyStrategy import DumbStrategy
+# from Strategies.DummyStrategy import DumbStrategy
+from Test_Data.DummyStrategy_No_LOOP import DumbStrategy
 
 # Conecting to DB
 # connection = AWS_SQL(load_dotenv)
 connection = DummyData(load_dotenv)
 
 # Fetch all assets from Config module
-querry_from = config_live_trading(connection)
-config_rows_DB = querry_from.Join()
+# querry_from = config_live_trading(connection)
+# config_rows_DB = querry_from.Join()
+config_rows_DB = 
 
-connectors = connector_instances(config_rows_DB)
+# connectors = connector_instances(config_rows_DB)
+connectors = BinanceSpot()
 
 # Init all Strategies
 test_strategy = DumbStrategy(config_rows_DB, connectors)
@@ -43,7 +48,7 @@ test_strategy = DumbStrategy(config_rows_DB, connectors)
 while True:
 
     # fetch price_Data
-    all_price_data = live_price_data_Binance()
+    all_price_data = PriceDataFetch()
     # make function universal, not just for binance
     
     # feed pricedata to Strategies
