@@ -130,6 +130,7 @@ Binance_URIs = all_links_Binance()
 insert_all_pairs_Binance(db_connection, Binance_URIs)
 insert_all_pairs_Kraken(db_connection, Kraken_URIs)
 
+
 lol = 0
 
 ###############################################################################################

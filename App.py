@@ -1,4 +1,5 @@
 import os
+from re import I
 from dotenv import load_dotenv
 import time
 
@@ -22,6 +23,7 @@ from Test_Data.Test_Data import PriceDataFetch
 # Import connections
 # from Database_SQL.create_connectors import connector_instances
 from Binance.BinanceSpotConnector import BinanceSpot
+from AlpacaMarkets.AlpacaConnector import Alpaca
 
 # Import Strategies
 # from Strategies.DummyStrategy import DumbStrategy
@@ -34,18 +36,26 @@ connection = DummyData(load_dotenv)
 # Fetch all assets from Config module
 # querry_from = config_live_trading(connection)
 # config_rows_DB = querry_from.Join()
-config_rows_DB = 
+
+# id, user_id, strategy_id, asset_id, trade_start, keys_id
+config_rows_DB = ['1', '36', '1', '2578', 'NULL', '18']
+
 
 # connectors = connector_instances(config_rows_DB)
-connectors = BinanceSpot()
-
+# connectors = BinanceSpot()
+connectors = Alpaca(
+    'PK0RPI7F5X8M0VVED26I',
+    '6VoDwGzKZ3uvPPq8awfspLesuYDnPqYtx0ZhPefG',
+    'https://paper-api.alpaca.markets'
+)
 # Init all Strategies
 test_strategy = DumbStrategy(config_rows_DB, connectors)
 # test_strategy2 = DumbStrategy(config_rows_DB, connectors)
 
 # every 5min execute
 # ask Steele on how reliable that shit is
-while True:
+i = 0
+while i < 10000:
 
     # fetch price_Data
     all_price_data = PriceDataFetch()
@@ -60,6 +70,7 @@ while True:
 
     # implement sleep function here
     time.sleep(600)
+    i+=1
 
 
 
