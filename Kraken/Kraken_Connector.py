@@ -1,11 +1,14 @@
 import krakenex
+# import krakenex.api as connector
 from pykrakenapi import KrakenAPI
 
 class KrakenSpot:
     def __init__(self, key, secr_key):
         self.pub_key = key
         self.priv_key = secr_key
-        api = krakenex.API(self.pub_key, self.priv_key)
+
+        api = krakenex.API(self.pub_key, self.priv_key, 'https://futures.kraken.com/derivatives/api/v3')
+        # api = connector(self.pub_key, self.priv_key)
         self.client = KrakenAPI(api)
 
     def get_account_info(self):
