@@ -41,7 +41,7 @@ class config_live_trading:
     #     config_table_contents = self.connector.cursor.fetchall()
     #     return config_table_contents
 
-    def query_asset_id_DISTINCT(self):
+    def query_all_asset_id_from_config_rows(self):
         query = f"SELECT DISTINCT asset_id from {self.connector.DBNAME}.config_live_trading"
         self.connector.cursor.execute(query)
         config_table_contents = self.connector.cursor.fetchall()

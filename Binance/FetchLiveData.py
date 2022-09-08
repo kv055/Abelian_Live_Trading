@@ -13,7 +13,7 @@ connector = DummyData(load_dotenv)
 def live_price_data_Binance():
     # query asset_ids from Config
     query = config_live_trading(connector)
-    asset_ids = query.query_asset_id_DISTINCT()
+    asset_ids = query.query_all_asset_id_from_config_rows()
 
     urls_to_fetch = assets(connector, asset_ids)
     

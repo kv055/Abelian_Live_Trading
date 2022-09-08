@@ -22,7 +22,7 @@ class DumbStrategy:
             asset_id = row['asset_id']
             asset = [ass for ass in self.price if ass['asset_id'] == asset_id]
             
-            # print('ROW',row,'ASSET',asset[0]['symbol'],'CONNECTOR',connector_obj)
+            print('ROW',row,'ASSET',asset[0]['symbol'],'CONNECTOR',connector_obj)
             
             # if len(connector_obj) > 0:
             #     connection = connector_obj[0]['connector']

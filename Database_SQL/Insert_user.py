@@ -12,7 +12,13 @@ user = {
     'e_mail': 'kilian96@live.de'
 }
 
-def insert_user(connector, user_dict):
+def insert_user(connector):
+    # Data
+    user = {
+        'first_name': 'Kilian',
+        'last_name': 'Voss',
+        'e_mail': 'kilian96@live.de'
+    }
     ins = f"""INSERT INTO users (first_name, last_name, e_mail) VALUES (%s,%s,%s)"""
     val = (user['first_name'],user['last_name'],user['e_mail'])
     connector.cursor.execute(ins, val)
