@@ -45,7 +45,7 @@ class DummyData:
         )
         # connection.commit()
 
-        self.cursor = self.connection.cursor()
+        self.cursor = self.connection.cursor(dictionary=True)
         # cursor.execute()
 
     def close(self):
