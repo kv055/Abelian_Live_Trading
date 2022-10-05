@@ -1,52 +1,40 @@
-from dotenv import load_dotenv
 import time
-import requests
-load_dotenv()
-
-# Import Database Connection
-from Database_SQL.aws_sql_connect import AWS_SQL, DummyData
-from Database_SQL.Querry_Config_Class import config_live_trading 
-
-# Import live data fetch modules
-# from Binance.FetchLiveData import live_price_data_Binance
-# Import connections
-from Database_SQL.create_connectors import connector_instances
-# Import Strategies
+from Deployment.Deployment_Execution import Execute_Deployment
+# from Message_Que.Test_File_Poll_Messages import Subscribe_Config_Rows
 from Strategies.DummyStrategy import DumbStrategy
-from Message_Que.Test_File_Poll_Messages import Subscribe_Config_Rows
 
-# Conecting to DB
-connection = DummyData(load_dotenv)
 
 # Connecting to Q
-Q_Instance = Subscribe_Config_Rows()
-# fetch config rows from Q
-Q_Instance.fetch_config_rows_from_Q()
+# Q_Instance = Subscribe_Config_Rows()
+Q_Instance = Execute_Deployment()
 
-# Fetch all assets from Config module
-querry_from = config_live_trading(connection)
-config_rows_DB = querry_from.Join()
+config_row_id_list = []
+all_config_rows = []
 
-# create exchange/broker connections from config rows
-connectors = connector_instances()
+asset_id_list = []
+all_asset_url_dicts = []
 
-# all price data urls
+key_id_list = []
+all_connectors = []
 
-
-# Init all Strategies
-test_strategy = DumbStrategy(config_rows_DB, connectors)
+test_strategy = DumbStrategy()
 
 while True:
 
+    Q_Instance.deploy_trading(
+        config_row_id_list,
+        all_config_rows,
+        asset_id_list,
+        all_asset_url_dicts,
+        key_id_list,
+        all_connectors
+    )
 
-    # fetch price_Data
-    # all_price_data = live_price_data_Binance()
+    Q_Instance.stop_trading(
+        all_config_rows,
+        config_row_id_list
+    )
     
-    # feed pricedata to Strategies
-    test_strategy.load_pricedata()
+    test_strategy.execute_trading(all_config_rows)
 
-    # execute the trades
-    test_strategy.trade_loop()
-
-    # implement sleep function here
-    time.sleep(600)
+    time.sleep(1)
