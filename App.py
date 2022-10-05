@@ -5,7 +5,7 @@ load_dotenv()
 
 # Import Database Connection
 from Database_SQL.aws_sql_connect import AWS_SQL, DummyData
-from Database_SQL.querry_config import config_live_trading 
+from Database_SQL.Querry_Config_Class import config_live_trading 
 
 # Import live data fetch modules
 # from Binance.FetchLiveData import live_price_data_Binance
