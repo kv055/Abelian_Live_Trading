@@ -1,60 +1,39 @@
-import time
-from dotenv import load_dotenv
-
 from Message_Que.Q_PUB_SUB_class import Q
-from Database_SQL.aws_sql_connect import DummyData
-from Broker_Exchange_Connectors.Create_Connectors_Class import Create_Connectors
+from Database_SQL.Querry_Config_Class import config_live_trading
+from Deployment.Create_Connectors_Class import Create_Connectors
+from Deployment.Create_Asset_Dicts_Class import Create_Price_Refresh
 
 class Subscribe_Config_Rows:
     def __init__(self):
         self.que = Q()
-        self.db_instance = DummyData(load_dotenv)
-        self.deployed_strategies = []
-
-
-    def fetch_deploy_messages(self):
-        fetched_messages = self.que.subscribe()
-
-        for message in fetched_messages:
-            if len(message) > 0:
-                if message['Message_Group'] == 'Deploy' and message not in self.deployed_strategies:
-                    self.deployed_strategies.append(message)
-        # To do: delete message from Q
-
-        return self.deployed_strategies
+        self.config_table = config_live_trading() 
+      
+    def stop_trading_messages(self, all_config_rows):
         
-
-    def fetch_stop_trading_messages(self, all_config_rows):
         fetched_messages = self.que.subscribe()
+        if len(fetched_messages) > 0:
+            for message in fetched_messages:
+                if message['Message_Group'] == 'Stop_Trading':
+                    # filter function
+                    def find_deployed_config_by_id(deployed_strategy):
+                        if deployed_strategy['id'] == message['Config_row_Id']:
+                            return True
+                    # find the deployed strat by the messageid from the stop message 
+                    matched_deployed_configuration =  list(
+                        filter(
+                        find_deployed_config_by_id,
+                        all_config_rows
+                    ))
+                    for config_row in matched_deployed_configuration:
+                        all_config_rows.remove(config_row)
+                    # delete message id from row in the DB
+                    self.config_table.delete_message_id_from_stoped_config_rows(message['Config_row_Id'])
 
-        for message in fetched_messages:
-            if message['Message_Group'] == 'Stop_Trading':
-                # filter function
-                def find_deployed_config_by_id(deployed_strategy):
-                    if deployed_strategy['id'] == message['Config_row_Id']:
-                        return True
-                # find the deployed strat by the messageid from the stop message 
-                matched_deployed_configuration =  list(
-                    filter(
-                    find_deployed_config_by_id,
-                    all_config_rows
-                ))
-                for config_row in matched_deployed_configuration:
-                    all_config_rows.remove(config_row)
-                # delete message id from row in the DB
-                update_row_sql = f"""
-                    UPDATE config_live_trading
-                    SET message_id = 'NULL'
-                    WHERE id = '{message['Config_row_Id']}' 
-                """
-                self.db_instance.cursor.execute(update_row_sql)
-                self.db_instance.connection.commit()
-
-                # # To do: delete message from Q delete message from Q
+                    # # To do: delete message from Q delete message from Q
 
     def deploy_config_rows(
         self,
-        new_config_rows_to_deploy,
+        config_row_id_list,
         deployed_config_rows,
         asset_id_list,
         deployed_assets,
@@ -62,59 +41,59 @@ class Subscribe_Config_Rows:
         deployed_connectors
         ):
 
-        if len(new_config_rows_to_deploy) > 0:
-            for message in new_config_rows_to_deploy:
-                
-                asset_id = message['Config_Row']['asset_id']
-                keys_id = message['Config_Row']['keys_id']
-                
-                if message['Config_Row'] not in deployed_config_rows:
-                    deployed_config_rows.append(message['Config_Row']) 
+        fetched_messages = self.que.subscribe()
+        if len(fetched_messages) > 0:
+            for message in fetched_messages:
+                msg_group = message['Message_Group']
+                config_row = message['Config_Row']
 
-                if asset_id not in asset_id_list:
+                if msg_group == 'Deploy' and config_row['id'] not in config_row_id_list:
+                    config_row_id_list.append(config_row['id'])
+
+                    asset_id = config_row['asset_id']
+                    keys_id = config_row['keys_id']
+
+                    if keys_id not in key_id_list:
+
+                        key_pair = self.config_table.get_key_pair_by_id(keys_id)
+                        key_pair[0]['keys_id'] =  keys_id
+                        # make connector out of it
+                        # connector_instance(key_pair[0])
+                        connector = Create_Connectors(key_pair[0])
+                        # append connector to all_connetors
+                        deployed_connectors.append({
+                            'keys_id' : keys_id,
+                            'connector' : connector
+                        })
+                        key_id_list.append(keys_id)
                     
-                    get_asset_data_sql = f"""
-                        SELECT
-                            assets.id,
-                            assets.data_provider, 
-                            assets.ticker, 
-                            assets.live_data_url,
-                            assets.live_data_req_body
-                        FROM assets
-                        WHERE assets.id = '{asset_id}'
+                    elif keys_id in key_id_list:
+                        # filter connector by key_id
+                        connector_filtered = [con for con in deployed_connectors if con['keys_id'] == keys_id]
+                        connector = connector_filtered[0]
 
-                    """
-                    self.db_instance.cursor.execute(get_asset_data_sql)
-                    asset_dicts_unformated = self.db_instance.cursor.fetchall()
+                    if asset_id not in asset_id_list:
+                        
+                        asset_dict = self.config_table.get_asset_by_id(asset_id)
+                        # Create asset dict
+                        price_data_instance = Create_Price_Refresh(asset_dict[0],connector)
+                
+                        deployed_assets.append(price_data_instance)
+                        asset_id_list.append(asset_id)
+
+                    elif asset_id in asset_id_list:
+                        # filter by deployed assets
+                        price_data_instance_filtered = [ass for ass in deployed_assets if ass['id'] == asset_id]
+                        price_data_instance = price_data_instance_filtered[0]
+
+
+                    config_row['pricedata'] = price_data_instance
+                    config_row['connector'] = connector
+
+                    deployed_config_rows.append(config_row)
+
+
                     
-                    for asset in asset_dicts_unformated:
-                        deployed_assets.append(asset)
 
-                    asset_id_list.append(asset_id)
+                    
 
-                if keys_id not in key_id_list:
-
-                    get_key_pair_sql = f"""
-                        SELECT
-                            exchange_keys.data_provider,
-                            exchange_keys.api_endpoint,
-                            exchange_keys.pub_key,
-                            exchange_keys.priv_key
-                        FROM exchange_keys
-                        WHERE exchange_keys.id = '{keys_id}'
-
-                    """
-                    self.db_instance.cursor.execute(get_key_pair_sql)
-                    key_pair = self.db_instance.cursor.fetchall()
-
-                    key_pair[0]['keys_id'] =  keys_id
-                    # make connector out of it
-                    # connector_instance(key_pair[0])
-                    connector = Create_Connectors(key_pair[0])
-                    # append connector to all_connetors
-
-                    deployed_connectors.append({
-                        'keys_id' : keys_id,
-                        'connector' : connector
-                    })
-                    key_id_list.append(keys_id)
