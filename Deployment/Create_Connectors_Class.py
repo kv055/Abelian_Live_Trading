@@ -4,27 +4,27 @@ from binance.spot import Spot
 import alpaca_trade_api as tradeapi
 
 class Create_Connectors:
-    def __init__(self, key_pair):
-        self.endpoint = key_pair['data_provider']
+    def __init__(self, key_dict):
+        self.endpoint = key_dict['data_provider']
         
         if self.endpoint == 'Alpaca':
             self.client = tradeapi.REST(
-                key_pair['pub_key'], 
-                key_pair['priv_key'], 
-                key_pair['api_endpoint']
+                key_dict['pub_key'], 
+                key_dict['priv_key'], 
+                key_dict['api_endpoint']
             )
                         
         elif self.endpoint == 'Binance':
             self.client = Spot(
-                key_pair['pub_key'], 
-                key_pair['priv_key']
+                key_dict['pub_key'], 
+                key_dict['priv_key']
             )
 
         elif self.endpoint == 'Kraken':
             api = krakenex.API(
-                key_pair['pub_key'], 
-                key_pair['priv_key'], 
-                key_pair['api_endpoint']
+                key_dict['pub_key'], 
+                key_dict['priv_key'], 
+                key_dict['api_endpoint']
             )
             self.client = KrakenAPI(api)
 
@@ -41,7 +41,9 @@ class Create_Connectors:
         elif self.endpoint == 'Kraken':
             ballance_as_frame = self.client.get_account_balance()
             ballance = dict(ballance_as_frame['vol'])
-            # return ballance
+            account = 6999
+            
+        return account
 
 
     def get_all_orders(self):
