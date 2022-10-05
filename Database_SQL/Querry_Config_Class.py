@@ -1,9 +1,8 @@
-from dotenv import load_dotenv
-from Database_SQL.aws_sql_connect import DummyData
+from Database_SQL.aws_sql_connect import SQL_Server
 
 class config_live_trading:
     def __init__(self):
-        self.connector = DummyData(load_dotenv)        
+        self.connector = SQL_Server('DummyData')        
 
     def cursor_fetch(self, sql_querry_string):
         self.connector.cursor.execute(sql_querry_string)

@@ -1,52 +1,39 @@
 import os
 import mysql.connector
 # from mysql.connector import errorcode
+from dotenv import load_dotenv
 
-class AWS_SQL:
-    def __init__(self, environement):
-        environement()
-        ENDPOINT = os.getenv('AWSAURORA_ENDPOINT')
-        PORT = os.getenv('AWSAURORA_PORT')
-        REGION = os.getenv('AWSAURORA_REGION')
-        self.DBNAME = os.getenv('AWSAURORA_DBNAME')
-        USER = os.getenv('AWSAURORA_USER')
-        ADMINPW = os.getenv('AWSAURORA_ADMINPW')
+class SQL_Server:
+    def __init__(self, DB_Name = None):
+        load_dotenv()
+        self.ENDPOINT = os.getenv('AWSAURORA_ENDPOINT')
+        self.USER = os.getenv('AWSAURORA_USER')
+        self.ADMINPW = os.getenv('AWSAURORA_ADMINPW')
         
-        self.connection = mysql.connector.connect(
-            user=USER,
-            password=ADMINPW,
-            host=ENDPOINT,
-            database=self.DBNAME
-        )
-        # connection.commit()
-
-        self.cursor = self.connection.cursor()
-        # cursor.execute()
-
-    def close(self):
-        self.connection.close()
-    
-    
-class DummyData:
-    def __init__(self, environement):
-        environement()
-        ENDPOINT = os.getenv('AWSAURORA_ENDPOINT')
-        PORT = os.getenv('AWSAURORA_PORT')
-        REGION = os.getenv('AWSAURORA_REGION')
-        self.DBNAME = os.getenv('DUMMY_DATA_DBNAME')
-        USER = os.getenv('AWSAURORA_USER')
-        ADMINPW = os.getenv('AWSAURORA_ADMINPW')
+        if DB_Name == None:
+            self.connection = mysql.connector.connect(
+                user = self.USER,
+                password = self.ADMINPW,
+                host = self.ENDPOINT
+            )
+        else:
+            self.connection = mysql.connector.connect(
+            user = self.USER,
+            password = self.ADMINPW,
+            host = self.ENDPOINT,
+            database = DB_Name
+            )
         
-        self.connection = mysql.connector.connect(
-            user=USER,
-            password=ADMINPW,
-            host=ENDPOINT,
-            database=self.DBNAME
-        )
-        # connection.commit()
-
         self.cursor = self.connection.cursor(dictionary=True)
-        # cursor.execute()
+
+    def connect_db(self,db_name):
+        self.connection = mysql.connector.connect(
+            user = self.USER,
+            password = self.ADMINPW,
+            host = self.ENDPOINT,
+            database = db_name
+        )
+        self.cursor = self.connection.cursor(dictionary=True)
 
     def close(self):
-        self.connection.close()
+        self.connection.close() 
