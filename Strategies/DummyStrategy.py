@@ -12,6 +12,8 @@ class DumbStrategy:
             # get latest trading account ballances
             account_cursor = obj['connector']
             account_info = account_cursor.get_account_info()
+            trading_asset = obj['pricedata']['asset_dict']
+            ballance_trading_asset = account_cursor.get_ballance_of(trading_asset)
             n = random.random()
             # if (n >= 0.8):
             #     account_cursor.new_order('BTCUSDT','BUY','MARKET',0.002)

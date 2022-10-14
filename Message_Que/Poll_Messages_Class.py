@@ -13,6 +13,8 @@ class Subscribe_Config_Rows:
 
         if len(fetched_messages) > 0:
             return fetched_messages
+        else:
+            return []
 
     def fetch_deploy_trading_messages(self):
         fetched_messages = self.que.subscribe()
@@ -23,3 +25,5 @@ class Subscribe_Config_Rows:
 
         if len(fetched_messages) > 0:
             return fetched_messages
+        else:
+            return []

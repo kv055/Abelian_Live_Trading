@@ -18,7 +18,7 @@ class Create_Price_Refresh:
             price_as_float = float(price_as_str)
                         
         elif self.endpoint == 'Alpaca':
-            price_as_float = 69
+            price_as_float = self.connector.get_latest_pricedata(self.asset_dict['ticker'])
             
         elif self.endpoint == 'Kraken':        
             answer_raw = requests.get(self.asset_dict['live_data_url'])

@@ -27,7 +27,16 @@ class Create_Connectors:
                 key_dict['api_endpoint']
             )
             self.client = KrakenAPI(api)
+    
+    # Public Market Data
+    def get_latest_pricedata(self, ticker):
+        if self.endpoint == 'Alpaca':
+            latest_bar = self.client.get_latest_bar(ticker)
+            latest_closing_price = latest_bar['c']
+        
+            return latest_closing_price
 
+    # Private Trading 
 
     def get_account_info(self):
         if self.endpoint == 'Alpaca':
@@ -44,6 +53,21 @@ class Create_Connectors:
             account = 6999
             
         return account
+
+    def get_ballance_of(self, ticker):
+        if self.endpoint == 'Alpaca':
+            account = self.client.get_account()
+            
+            
+
+        elif self.endpoint == 'Binance':
+            account = self.client.account()
+            
+
+        elif self.endpoint == 'Kraken':
+            ballance_as_frame = self.client.get_account_balance()
+            ballance = dict(ballance_as_frame['vol'])
+            account = 6999
 
 
     def get_all_orders(self):
