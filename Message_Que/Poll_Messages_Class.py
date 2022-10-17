@@ -1,5 +1,6 @@
 from Message_Que.Q_PUB_SUB_class import Q
 
+
 class Subscribe_Config_Rows:
     def __init__(self):
         self.que = Q()

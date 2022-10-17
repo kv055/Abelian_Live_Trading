@@ -1,8 +1,8 @@
 import time
+
 from Deployment.Deployment_Execution import Execute_Deployment
 # from Message_Que.Test_File_Poll_Messages import Subscribe_Config_Rows
 from Strategies.DummyStrategy import DumbStrategy
-
 
 # Connecting to Q
 # Q_Instance = Subscribe_Config_Rows()

@@ -4,10 +4,10 @@
 # if it works then delete functions x y from Poll_Messages.py
 
 from Database_SQL.Querry_Config_Class import config_live_trading
-from Deployment.Create_Connectors_Class import Create_Connectors
 from Deployment.Create_Asset_Dicts_Class import Create_Price_Refresh
-
+from Deployment.Create_Connectors_Class import Create_Connectors
 from Message_Que.Poll_Messages_Class import Subscribe_Config_Rows
+
 
 class Execute_Deployment:
     def __init__(self):

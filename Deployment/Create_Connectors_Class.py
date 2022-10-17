@@ -1,7 +1,8 @@
-import krakenex
-from pykrakenapi import KrakenAPI
-from binance.spot import Spot
 import alpaca_trade_api as tradeapi
+import krakenex
+from binance.spot import Spot
+from pykrakenapi import KrakenAPI
+
 
 class Create_Connectors:
     def __init__(self, key_dict):

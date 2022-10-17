@@ -1,5 +1,6 @@
 import random
 
+
 class DumbStrategy:
     def __init__ (self):
         # (self, config_rows, connector_list)

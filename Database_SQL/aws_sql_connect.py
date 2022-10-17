@@ -1,7 +1,9 @@
 import os
+
 import mysql.connector
 # from mysql.connector import errorcode
 from dotenv import load_dotenv
+
 
 class SQL_Server:
     def __init__(self, DB_Name = None):

@@ -1,6 +1,8 @@
 from datetime import datetime
+
 import requests
-    
+
+
 class Create_Price_Refresh:
     def __init__(self, asset_dict, connector):
         self.asset_dict = asset_dict

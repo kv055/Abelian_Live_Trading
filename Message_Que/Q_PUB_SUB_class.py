@@ -1,9 +1,10 @@
-import os
-from dotenv import load_dotenv
-import boto3
 import json
 import logging
+import os
+
+import boto3
 from botocore.exceptions import ClientError
+from dotenv import load_dotenv
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO,

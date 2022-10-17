@@ -1,5 +1,6 @@
 from Database_SQL.aws_sql_connect import SQL_Server
 
+
 class config_live_trading:
     def __init__(self):
         self.connector = SQL_Server('DummyData')        
