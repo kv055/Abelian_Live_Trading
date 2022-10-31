@@ -6,12 +6,12 @@
 from Database_SQL.Querry_Config_Class import config_live_trading
 from Deployment.Create_Asset_Dicts_Class import Create_Price_Refresh
 from Deployment.Create_Connectors_Class import Create_Connectors
-from Message_Que.Poll_Messages_Class import Subscribe_Config_Rows
+# from Message_Que.Poll_Messages_Class import Subscribe_Config_Rows
 
 
 class Execute_Deployment:
     def __init__(self):
-        self.que_subscription = Subscribe_Config_Rows()
+        # self.que_subscription = Subscribe_Config_Rows()
         self.config_table = config_live_trading() 
 
     def stop_trading(
@@ -20,9 +20,9 @@ class Execute_Deployment:
         list_of_deployed_config_row_ids
         ):
         
-        fetched_messages = self.que_subscription.fetch_stop_trading_messages()
+        stop_trading_messages = []
         # if fetched_messages == True:
-        for message in fetched_messages:
+        for message in stop_trading_messages:
             # filter function
             def find_deployed_config_by_id(deployed_strategy):
                 if deployed_strategy['id'] == message['Config_row_Id']:
@@ -65,11 +65,20 @@ class Execute_Deployment:
         deployed_connectors
         ):
 
-        fetched_messages = self.que_subscription.fetch_deploy_trading_messages()
-        # if fetched_messages == True:
-        for message in fetched_messages:
-            config_row = message['Config_Row']
-
+        # Declare Config Row Here
+        config_rows_test = [
+            # Kraken Spot
+            # {'id': 100, 'strategy_id': 1, 'strategy_params': '0', 'asset_id': 13674, 'keys_id': 1},
+            # Kraken Futures
+            # {'id': 200, 'strategy_id': 1, 'strategy_params': '0', 'asset_id': 13674, 'keys_id': 2}, 
+            # Binance
+            # {'id': 300, 'strategy_id': 1, 'strategy_params': '0', 'asset_id': 11432, 'keys_id': 3},
+            # Alpaca Paper
+            {'id': 400, 'strategy_id': 1, 'strategy_params': '0', 'asset_id': 9902, 'keys_id': 4}, 
+            # Alpaca Broker
+            # {'id': 500, 'strategy_id': 1, 'strategy_params': '0', 'asset_id': 9902, 'keys_id': 5}
+            ]
+        for config_row in config_rows_test:
             if config_row['id'] not in config_row_id_list:
                 config_row_id_list.append(config_row['id'])
 

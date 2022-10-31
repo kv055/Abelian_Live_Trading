@@ -56,20 +56,29 @@ class Create_Connectors:
         return account
 
     def get_ballance_of(self, ticker):
+        ballances = {}
+            
         if self.endpoint == 'Alpaca':
             account = self.client.get_account()
-            
-            
+
+            ballances['cash_or_base'] = 0
+            ballances['trading_asset'] = 0
 
         elif self.endpoint == 'Binance':
             account = self.client.account()
-            
+
+            ballances['cash_or_base'] = 0
+            ballances['trading_asset'] = 0
 
         elif self.endpoint == 'Kraken':
             ballance_as_frame = self.client.get_account_balance()
+
             ballance = dict(ballance_as_frame['vol'])
             account = 6999
+            ballances['cash_or_base'] = 0
+            ballances['trading_asset'] = 0
 
+        return ballances
 
     def get_all_orders(self):
         if self.endpoint == 'Alpaca':
@@ -125,6 +134,43 @@ class Create_Connectors:
 
         elif self.endpoint == 'Kraken':
             # stopped_order = self.client.
+            pass
+
+    def new_order(
+            self,
+            direction,
+            order_type,
+            asset,
+            quantity
+        ):
+
+        if self.endpoint == 'Alpaca':
+            self.client.submit_order(
+                asset,
+                quantity,
+                direction,
+                order_type
+            )
+            pass
+            
+
+        elif self.endpoint == 'Binance':
+            self.client.new_order(
+                asset,
+                direction,
+                order_type,
+                quantity
+            )
+            pass
+            
+
+        elif self.endpoint == 'Kraken':
+            self.client.add_standard_order(
+                order_type,
+                direction,
+                asset,
+                quantity
+            )
             pass
 
         # Binance
