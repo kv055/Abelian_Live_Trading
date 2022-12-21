@@ -9,11 +9,11 @@ class DumbStrategy:
     def execute_trading(self, config_rows):
         for obj in config_rows:
             # get latest price
-            price_data = obj['pricedata'].fetch_price_data()
+            price_data = obj['pricedata']()
             # get latest trading account ballances
             account_cursor = obj['connector']
             account_info = account_cursor.get_account_info()
-            trading_asset = obj['pricedata']['asset_dict']
+            trading_asset = obj['asset_dict']
             ballance_trading_asset = account_cursor.get_ballance_of(trading_asset)
             n = random.random()
             # if (n >= 0.8):
