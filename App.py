@@ -33,9 +33,10 @@ price_data = Create_Price_Refresh(asseet_dict,connector)
 obj = {
     'pricedata':price_data.fetch_price_data,
     'connector':connector,
-    'pricedata':{'asset_dict':asseet_dict}
+    'asset_dict':asseet_dict
 }
 all_config_rows.append(obj)
+
 while True:
   
     test_strategy.execute_trading(all_config_rows)
