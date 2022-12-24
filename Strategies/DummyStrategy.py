@@ -8,15 +8,29 @@ class DumbStrategy:
 
     def execute_trading(self, config_rows):
         for obj in config_rows:
-            # get latest price
+            
+            # Initialisation
             price_data = obj['pricedata']()
-            # get latest trading account ballances
             account_cursor = obj['connector']
-            account_info = account_cursor.get_account_info()
-            trading_asset = obj['asset_dict']
-            ballance_trading_asset = account_cursor.get_ballance_of(trading_asset)
-            n = random.random()
-            # if (n >= 0.8):
-            #     account_cursor.new_order('BTCUSDT','BUY','MARKET',0.002)
-            # elif(n <= 0.2):
-            #     account_cursor.new_order('BTCUSDT','SELL','MARKET',0.002)
+            trading_asset_dict = obj['asset_dict']
+            ballances = account_cursor.get_ballance_of_trading_asset_and_cash(trading_asset_dict)
+
+            # Signal Generation
+            # n = random.random()
+            n =0.81
+
+            # Construction of Order Dict
+            order_dict = {
+                'ticker' : trading_asset_dict['ticker'],
+                'quantity' : 1.0,
+                'type' : 'market', 
+                'time_in_force' : 'day'
+            }
+
+            # Signal Execution
+            if (n >= 0.8):
+                order_dict['side'] = 'buy'
+                account_cursor.new_order(order_dict)
+            elif(n <= 0.2):
+                order_dict['side'] = 'sell'
+                account_cursor.new_order(order_dict)
