@@ -55,11 +55,40 @@ class Create_Connectors:
             
         return account
 
-    def get_ballance_of(self, ticker):
+    def get_ballance_of_trading_asset_and_cash(self, asset_dict):
         if self.endpoint == 'Alpaca':
+            # Get Asset Ballances
+            list_of_positions = self.client.list_positions()
+            def filter_function(position_from_alpaca):
+                if position_from_alpaca['symbol'] == asset_dict['ticker']:
+                    return True
+                    # Asset Dict Append Ballance
+                else:
+                    return False
+            filter_object = filter(filter_function, list_of_positions)
+            list_of_position_with_ballance_of_speccified_asset = list(filter_object)
+
+            # Get Cash Ballances
             account = self.client.get_account()
-            
-            
+            cash = account['cash']
+
+            # if len(list_of_position_with_ballance_of_speccified_asset) > 0:
+            #     return 0
+            # else:
+            #     return 0
+
+            return {
+                'Asset_Ballance': list_of_position_with_ballance_of_speccified_asset[0]['qty'],
+                'Cash_Ballance': cash
+            }
+
+            # formated_positions = []
+            # for position in list_of_positions:
+            #     formated_positions.append(
+            #         {
+                        
+            #         }
+            #     )
 
         elif self.endpoint == 'Binance':
             account = self.client.account()
@@ -89,7 +118,8 @@ class Create_Connectors:
 
     def get_history(self, ticker_symbol=None):
         if self.endpoint == 'Alpaca':
-           history = self.client.get_portfolio_history()
+            history = self.client.get_portfolio_history()
+            activities = self.client.get_activities()
             
 
         elif self.endpoint == 'Binance':
@@ -126,7 +156,38 @@ class Create_Connectors:
         elif self.endpoint == 'Kraken':
             # stopped_order = self.client.
             pass
+    
+    def new_order(self,order_dict):
+        if self.endpoint == 'Alpaca':
+            generated_order = self.client.submit_order(
+                order_dict['ticker'],
+                order_dict['quantity'],
+                order_dict['side'],
+                order_dict['type'],
+                order_dict['time_in_force']
+            )
+            
+        # submit_order(symbol, 
+        # qty=None, side="buy", type="market", time_in_force="day", 
+        # limit_price=None, stop_price=None, client_order_id=None, 
+        # order_class=None, take_profit=None, stop_loss=None, 
+        # trail_price=None, trail_percent=None, notional=None)
+            
 
+        elif self.endpoint == 'Binance':
+            generated_order = self.client.cancel_order(id)
+            
+
+        elif self.endpoint == 'Kraken':
+            # generated_order = self.client.
+            pass
+
+        # success = True
+        # if success == True:
+        #     return 0
+        # else:
+        #     return 1
+        
         # Binance
         # params = {
         #     'symbol': 'BTCUSDT',
@@ -138,10 +199,4 @@ class Create_Connectors:
         # }
         # 'BTCUSDT','BUY','MARKET',0.002
 
-        # Alpaca
-        #  submit_order(symbol, 
-        # qty=None, side="buy", type="market", time_in_force="day", 
-        # limit_price=None, stop_price=None, client_order_id=None, 
-        # order_class=None, take_profit=None, stop_loss=None, 
-        # trail_price=None, trail_percent=None, notional=None)
 
