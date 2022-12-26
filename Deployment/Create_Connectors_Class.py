@@ -72,15 +72,18 @@ class Create_Connectors:
             account = self.client.get_account()
             cash = account['cash']
 
-            # if len(list_of_position_with_ballance_of_speccified_asset) > 0:
-            #     return 0
-            # else:
-            #     return 0
+            if len(list_of_position_with_ballance_of_speccified_asset) == 0:
+                return {                     
+                    'Asset_Ballance': 0,
+                    'Cash_Ballance': cash
+                    }
+            else:
+                return {
+                    'Asset_Ballance': list_of_position_with_ballance_of_speccified_asset[0]['qty'],
+                    'Cash_Ballance': cash
+                }
 
-            return {
-                'Asset_Ballance': list_of_position_with_ballance_of_speccified_asset[0]['qty'],
-                'Cash_Ballance': cash
-            }
+            
 
             # formated_positions = []
             # for position in list_of_positions:
@@ -166,6 +169,8 @@ class Create_Connectors:
                 order_dict['type'],
                 order_dict['time_in_force']
             )
+
+            return generated_order
             
         # submit_order(symbol, 
         # qty=None, side="buy", type="market", time_in_force="day", 
