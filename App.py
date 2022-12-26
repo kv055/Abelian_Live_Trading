@@ -40,5 +40,5 @@ all_config_rows.append(obj)
 while True:
   
     test_strategy.execute_trading(all_config_rows)
-
+    print('trading executed, sleeping for 600 Seconds')
     time.sleep(600)
