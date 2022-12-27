@@ -1,10 +1,13 @@
 import random
-
+from Database_SQL.Log_Strategy_Output_Class import Log_Live_Strategy_Output
 
 class DumbStrategy:
     def __init__ (self):
-        # (self, config_rows, connector_list)
         self.strategy_id = 1
+        self.connector = Log_Live_Strategy_Output()
+        # The following prt might be integrated into the execute_trading method
+        # in case for each config row getting its own log table, but not sure yet
+        self.connector.create_logging_table()
 
     def execute_trading(self, config_rows):
         for obj in config_rows:
@@ -16,8 +19,7 @@ class DumbStrategy:
             ballances = account_cursor.get_ballance_of_trading_asset_and_cash(trading_asset_dict)
 
             # Signal Generation
-            # n = random.random()
-            n =0.81
+            n = random.random()
 
             # Construction of Order Dict
             order_dict = {
@@ -35,3 +37,12 @@ class DumbStrategy:
 
             order_confirmation_or_rejection = account_cursor.new_order(order_dict)
             print(order_confirmation_or_rejection)
+
+            # Log everything to the Database
+            self.connector.Log_to_db({
+                'Asset_Price':price_data['last_fetched'].isoformat(),
+                'Portfolio_Ballances':ballances,
+                'Trade_Signal':n,
+                'Order_Sent':order_dict,
+                'Order_Confirmation_Rejection_msg':order_confirmation_or_rejection
+                })
