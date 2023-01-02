@@ -1,15 +1,9 @@
 import time
 
-# from Deployment.Deployment_Execution import Execute_Deployment
-
 from Deployment.Create_Connectors_Class import Create_Connectors
 from Deployment.Create_Asset_Dicts_Class import Create_Price_Refresh
 
 from Strategies.DummyStrategy import DumbStrategy
-
-# Connecting to Q
-# Q_Instance = Subscribe_Config_Rows()
-# Q_Instance = Execute_Deployment()
 
 all_config_rows = []
 
