@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 
 import requests
 
@@ -10,8 +11,10 @@ class Create_Price_Refresh:
         self.connector = connector
 
     def fetch_price_data(self):
-        # self.asset_dict['last_fetched'] = datetime.now()
-        self.last_fetched = datetime.now().isoformat()
+        # self.last_fetched = datetime.now()
+        Australia_South_East = pytz.timezone("Australia/Sydney") 
+        timeInStraya = datetime.now(Australia_South_East)
+        currentTimeInStraya = timeInStraya.strftime("%H:%M:%S")
 
         if self.endpoint == 'Binance':
             answer_raw = requests.get(self.asset_dict['live_data_url'])
@@ -31,6 +34,6 @@ class Create_Price_Refresh:
         return {
             'data_provider': self.endpoint,
             'ticker': self.asset_dict['ticker'],
-            'last_fetched': self.last_fetched,
+            'last_fetched': currentTimeInStraya,
             'last_price': price_as_float
         } 
