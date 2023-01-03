@@ -11,7 +11,7 @@ class Create_Price_Refresh:
 
     def fetch_price_data(self):
         # self.asset_dict['last_fetched'] = datetime.now()
-        self.last_fetched = datetime.now()
+        self.last_fetched = datetime.now().isoformat()
 
         if self.endpoint == 'Binance':
             answer_raw = requests.get(self.asset_dict['live_data_url'])
