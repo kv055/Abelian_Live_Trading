@@ -13,8 +13,9 @@ class Create_Price_Refresh:
     def fetch_price_data(self):
         # self.last_fetched = datetime.now()
         Australia_South_East = pytz.timezone("Australia/Sydney") 
-        timeInStraya = datetime.now(Australia_South_East)
-        currentTimeInStraya = timeInStraya.strftime("%H:%M:%S")
+        timeInStraya = datetime.now(Australia_South_East).isoformat()
+        currentTimeInStraya = timeInStraya[:19]
+        # timeInStraya.strftime("%H:%M:%S")
 
         if self.endpoint == 'Binance':
             answer_raw = requests.get(self.asset_dict['live_data_url'])
