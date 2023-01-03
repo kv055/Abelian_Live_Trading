@@ -20,7 +20,8 @@ class DumbStrategy:
 
             # Signal Generation
             n = random.random()
-
+            print('Signal: ',n)
+            
             # Construction of Order Dict
             order_dict = {
                 'ticker' : trading_asset_dict['ticker'],
@@ -32,17 +33,33 @@ class DumbStrategy:
             # Signal Execution
             if (n >= 0.8):
                 order_dict['side'] = 'buy'
+
+                order_confirmation_or_rejection = account_cursor.new_order(order_dict)
+                print(order_confirmation_or_rejection)
+
+                # Log everything to the Database
+                self.connector.Log_to_db({
+                    'Asset_Price':price_data,
+                    'Portfolio_Ballances':ballances,
+                    'Trade_Signal':n,
+                    'Order_Sent':order_dict,
+                    'Order_Confirmation_Rejection_msg':order_confirmation_or_rejection
+                    })
+            
             elif(n <= 0.2):
                 order_dict['side'] = 'sell'
 
-            order_confirmation_or_rejection = account_cursor.new_order(order_dict)
-            print(order_confirmation_or_rejection)
+                order_confirmation_or_rejection = account_cursor.new_order(order_dict)
+                print(order_confirmation_or_rejection)
 
-            # Log everything to the Database
-            self.connector.Log_to_db({
-                'Asset_Price':price_data['last_fetched'].isoformat(),
-                'Portfolio_Ballances':ballances,
-                'Trade_Signal':n,
-                'Order_Sent':order_dict,
-                'Order_Confirmation_Rejection_msg':order_confirmation_or_rejection
-                })
+                # Log everything to the Database
+                self.connector.Log_to_db({
+                    'Asset_Price':price_data,
+                    'Portfolio_Ballances':ballances,
+                    'Trade_Signal':n,
+                    'Order_Sent':order_dict,
+                    'Order_Confirmation_Rejection_msg':order_confirmation_or_rejection
+                    })
+
+            else:
+                print('No trade executed')
