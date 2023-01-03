@@ -1,0 +1,8 @@
+mysql.connector 
+alpaca_trade_api 
+python-dotenv
+krakenex
+binance-connector
+pykrakenapi
+requests
+debugpy

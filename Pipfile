@@ -5,6 +5,12 @@ name = "pypi"
 
 [packages]
 alpaca_trade_api
+krakenex
+binance.spot
+pykrakenapi
+python-dotenv
+mysql.connector
+requests
 
 [dev-packages]
 
