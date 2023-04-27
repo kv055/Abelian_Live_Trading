@@ -19,6 +19,7 @@ class DumbStrategy:
             ballances = account_cursor.get_ballance_of_trading_asset_and_cash(trading_asset_dict)
 
             # Signal Generation
+            # n = 0.1
             n = random.random()
             print('Signal: ',n)
             
@@ -31,7 +32,7 @@ class DumbStrategy:
             }
 
             # Signal Execution
-            if (n >= 0.8):
+            if (n >= 0.9):
                 order_dict['side'] = 'buy'
 
                 order_confirmation_or_rejection = account_cursor.new_order(order_dict)
@@ -46,7 +47,7 @@ class DumbStrategy:
                     'Order_Confirmation_Rejection_msg':order_confirmation_or_rejection
                     })
             
-            elif(n <= 0.2):
+            elif(n <= 0.1):
                 order_dict['side'] = 'sell'
 
                 order_confirmation_or_rejection = account_cursor.new_order(order_dict)
