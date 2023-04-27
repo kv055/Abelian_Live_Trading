@@ -1,8 +1,7 @@
-FROM ubuntu
-RUN apt update -y && apt upgrade -y
-RUN apt install python3 python3-pip -y
+FROM python:3.8
+
 WORKDIR /AbelianLiveTrading
-COPY . /AbelianLiveTrading
+COPY . .
 RUN pip install -r req.txt
 CMD ["python3","App.py"]
 

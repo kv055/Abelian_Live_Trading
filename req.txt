@@ -5,4 +5,3 @@ krakenex
 binance-connector
 pykrakenapi
 requests
-debugpy
