@@ -32,12 +32,12 @@ class Log_Live_Strategy_Output:
                 VALUES (%s, %s, %s, %s, %s)
             """
 
-        log_set = [                      
+        log_set = [                 
             json.dumps(log_dict['Asset_Price']), 
             json.dumps(log_dict['Portfolio_Ballances']), 
             log_dict['Trade_Signal'], 
             json.dumps(log_dict['Order_Sent']), 
-            json.dumps(log_dict['Order_Confirmation_Rejection_msg'])
+            json.dumps(log_dict['Order_Confirmation_Rejection_msg']._raw)
             ]
         
         self.connector.cursor.execute(log_sql,log_set)

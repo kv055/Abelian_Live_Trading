@@ -1,3 +1,4 @@
+import json
 import alpaca_trade_api as tradeapi
 import krakenex
 from binance.spot import Spot
@@ -33,8 +34,7 @@ class Create_Connectors:
     def get_latest_pricedata(self, ticker):
         if self.endpoint == 'Alpaca':
             latest_bar = self.client.get_latest_bar(ticker)
-            latest_closing_price = latest_bar['c']
-        
+            latest_closing_price = latest_bar._raw['c']
             return latest_closing_price
 
     # Private Trading 
@@ -58,7 +58,8 @@ class Create_Connectors:
     def get_ballance_of_trading_asset_and_cash(self, asset_dict):
         if self.endpoint == 'Alpaca':
             # Get Asset Ballances
-            list_of_positions = self.client.list_positions()
+            answer = self.client.list_positions()
+            list_of_positions = [pos._raw for pos in answer]
             def filter_function(position_from_alpaca):
                 if position_from_alpaca['symbol'] == asset_dict['ticker']:
                     return True
@@ -70,7 +71,7 @@ class Create_Connectors:
 
             # Get Cash Ballances
             account = self.client.get_account()
-            cash = account['cash']
+            cash = account._raw['cash']
 
             if len(list_of_position_with_ballance_of_speccified_asset) == 0:
                 return {                     
