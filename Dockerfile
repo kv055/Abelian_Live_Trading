@@ -1,10 +1,20 @@
-FROM python:3.8
+# FROM python:3.8
 
-WORKDIR /AbelianLiveTrading
-COPY . .
+# WORKDIR /AbelianLiveTrading
+# COPY . .
+# RUN pip install -r req.txt
+# CMD ["python3","App.py"]
+
+# Use the official AWS Lambda Python image as the base image
+FROM public.ecr.aws/lambda/python:3.8
+WORKDIR /Abelian_Live_Trading
+# Copy your requirements file and install dependencies
+COPY req.txt .
 RUN pip install -r req.txt
-CMD ["python3","App.py"]
 
-# RUN pip install debugpy
-# CMD [ "-m debugpy --listen localhost:5678 --wait-for-client App.py" ]
-# CMD ["debugpy", "run", "--listen", "5678:5678", "--wait-for-client", "App.py"]
+# Copy your Python script (App.py)
+COPY . .
+
+# Set the CMD to your handler
+CMD ["App.lambda_handler"]
+
