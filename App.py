@@ -22,7 +22,7 @@ keys_dict = {
     'priv_key': priv_key,
     'api_endpoint': api_endpoint
 }
-asseet_dict = {
+asset_dict = {
     "data_provider": "Binance",
     "ticker": "BTCUSDC",
     "candleSize": "1_Hour"
@@ -32,13 +32,13 @@ asseet_dict = {
 connector = Create_Connectors(keys_dict)
 
 # INITIALIZE PRICE DATA OBJECT
-price_data = Create_Price_Refresh(asseet_dict, connector)
+price_data = Create_Price_Refresh(asset_dict, connector)
 
 # CREATE TRADING OBJECT
 obj = {
     'pricedata': price_data.fetch_price_data,
     'connector': connector,
-    'asset_dict': asseet_dict
+    'asset_dict': asset_dict
 }
 all_config_rows.append(obj)
 
