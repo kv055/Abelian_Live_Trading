@@ -1,6 +1,4 @@
 import os
-import load_dotenv
-
 from Deployment.Create_Connectors_Class import Create_Connectors
 from Deployment.Create_Asset_Dicts_Class import Create_Price_Refresh
 from Strategies.DummyStrategy import DumbStrategy
@@ -10,7 +8,6 @@ all_config_rows = []
 test_strategy = DumbStrategy()
 
 # Get Priv Keys
-load_dotenv()
 pub_key = os.getenv('BINANCE_PUB')
 priv_key = os.getenv('BINANCE_PRIV')
 api_endpoint = os.getenv('BINANCE_API_END')
@@ -25,7 +22,8 @@ keys_dict = {
 asset_dict = {
     "data_provider": "Binance",
     "ticker": "BTCUSDC",
-    "candleSize": "1_Hour"
+    "candleSize": "1_Hour",
+    "live_data_url": f'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDC'
 }
 
 # INITIALIZE CONNECTOR OBJECT
@@ -42,10 +40,14 @@ obj = {
 }
 all_config_rows.append(obj)
 
-
-def lambda_handler(event, context):
+while True:
     test_strategy.execute_trading(all_config_rows)
-    return {
-        'statusCode': 200,
-        'body': 'Execution completed'
-    }
+
+
+
+# def lambda_handler(event, context):
+#     test_strategy.execute_trading(all_config_rows)
+#     return {
+#         'statusCode': 200,
+#         'body': 'Execution completed'
+#     }

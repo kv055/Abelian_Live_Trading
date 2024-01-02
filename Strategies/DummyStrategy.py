@@ -1,13 +1,10 @@
 import random
-from Database_SQL.Log_Strategy_Output_Class import Log_Live_Strategy_Output
+from Database_Dynamo.aws_dynamo_connect import DynamoDB_Class
 
 class DumbStrategy:
     def __init__ (self):
         self.strategy_id = 1
-        self.connector = Log_Live_Strategy_Output()
-        # The following prt might be integrated into the execute_trading method
-        # in case for each config row getting its own log table, but not sure yet
-        self.connector.create_logging_table()
+        self.db = DynamoDB_Class()
 
     def execute_trading(self, config_rows):
         for obj in config_rows:
@@ -39,7 +36,7 @@ class DumbStrategy:
                 print(order_confirmation_or_rejection)
 
                 # Log everything to the Database
-                self.connector.Log_to_db({
+                self.db.Strategy_Output_Log({
                     'Asset_Price':price_data,
                     'Portfolio_Ballances':ballances,
                     'Trade_Signal':n,
@@ -54,7 +51,7 @@ class DumbStrategy:
                 print(order_confirmation_or_rejection)
 
                 # Log everything to the Database
-                self.connector.Log_to_db({
+                self.db.Strategy_Output_Log({
                     'Asset_Price':price_data,
                     'Portfolio_Ballances':ballances,
                     'Trade_Signal':n,
