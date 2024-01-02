@@ -5,3 +5,5 @@ krakenex
 binance-connector
 pykrakenapi
 requests
+load_dotenv
+boto3

@@ -4,13 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-alpaca_trade_api
-krakenex
-binance.spot
-pykrakenapi
-python-dotenv
-mysql.connector
-requests
+alpaca_trade_api = "*"
+krakenex = "*"
+binance.spot = "*"
+pykrakenapi = "*"
+python-dotenv = "*"
+mysql.connector = "*"
+requests = "*"
 
 [dev-packages]
 
