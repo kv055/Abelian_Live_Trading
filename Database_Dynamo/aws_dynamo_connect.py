@@ -7,7 +7,8 @@ class DynamoDB_Class:
         try:
             load_dotenv()
             self.AWSDYNAMO_REGION = os.getenv('AWSDYNAMO_REGION')
-            self.AWSDYNAMO = os.getenv('AWSDYNAMO_REGION')  # Check if this line is intended, it seems like a typo
+            self.AWSDYNAMO_KEY_ID = os.getenv('AWSDYNAMO_KEY_ID')
+            self.AWSDYNAMO_PRIV_KEY = os.getenv('AWSDYNAMO_PRIV_KEY')
             self.AWSDYNAMO_TABLE = os.getenv('AWSDYNAMO_TABLE')
             
             # Initialize a DynamoDB client
