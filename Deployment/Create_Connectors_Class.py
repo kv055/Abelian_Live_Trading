@@ -181,7 +181,13 @@ class Create_Connectors:
             
 
         elif self.endpoint == 'Binance':
-            generated_order = self.client.cancel_order(id)
+            # implement further error handling in case order getss rejected
+            generated_order = self.client.new_order_test(
+                order_dict['ticker'],
+                order_dict['side'],
+                order_dict['type'],
+                quantity=order_dict['quantity']
+            )
             
 
         elif self.endpoint == 'Kraken':
