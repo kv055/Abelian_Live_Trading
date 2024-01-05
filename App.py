@@ -40,14 +40,9 @@ obj = {
 }
 all_config_rows.append(obj)
 
-while True:
+def lambda_handler(event, context):
     test_strategy.execute_trading(all_config_rows)
-
-
-
-# def lambda_handler(event, context):
-#     test_strategy.execute_trading(all_config_rows)
-#     return {
-#         'statusCode': 200,
-#         'body': 'Execution completed'
-#     }
+    return {
+        'statusCode': 200,
+        'body': 'Execution completed'
+    }
