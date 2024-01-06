@@ -1,8 +1,29 @@
+# Use an official Python runtime as a parent image
 FROM python:3.8
 
+# Set the working directory in the container
 WORKDIR /AbelianLiveTrading
-COPY . .
-RUN pip install -r req.txt
+
+# Copy only the requirements file into the container at /AbelianLiveTrading
+COPY req.txt /AbelianLiveTrading/
+
+# Install any needed packages specified in req.txt
+RUN pip install --no-cache-dir -r req.txt
+
+# Copy the current directory contents into the container at /AbelianLiveTrading
+COPY . /AbelianLiveTrading/
+
+# Your additional commands or CMD can go here
+
+
+
+
+
+
+
+
+
+
 # CMD ["python3","App.py"]
 
 # # Use the official AWS Lambda Python image as the base image
